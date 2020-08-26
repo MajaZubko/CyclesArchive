@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { fetchEntries } from '../../actions';
@@ -10,16 +11,32 @@ class EntryList extends React.Component {
 
 	renderList() {
 		return this.props.entries.map((entry) => {
-			return (
-				<div className="list-item" key={entry.id}>
-					<i className="fas fa-thermometer-half" />
-					<div className="list-content">
-						{entry.date}
-						<div className="list-description">{entry.temperature}</div>
+			if (entry.userId === this.props.currentUserId) {
+				return (
+					<div className="list-item" key={entry.id}>
+						<i className="fas fa-thermometer-half" />
+						<div className="list-content">
+							{entry.date}
+							<div className="list-description">{entry.temperature}</div>
+						</div>
+						<div className="list-buttons">
+							<button className="edit-button">Edit</button>
+							<button className="delete-button">Delete</button>
+						</div>
 					</div>
-				</div>
-			);
+				);
+			}
 		});
+	}
+
+	renderCreate() {
+		if (this.props.isSignedIn) {
+			return (
+				<Link to="/new" className="create-button">
+					Create entry
+				</Link>
+			);
+		}
 	}
 
 	render() {
@@ -27,13 +44,18 @@ class EntryList extends React.Component {
 			<div>
 				<h2>Entries</h2>
 				<div className="entry-list">{this.renderList()}</div>
+				{this.renderCreate()}
 			</div>
 		);
 	}
 }
 
 const mapStateToProps = (state) => {
-	return { entries: Object.values(state.entries) };
+	return {
+		entries: Object.values(state.entries),
+		currentUserId: state.auth.userId,
+		isSignedIn: state.auth.isSignedIn
+	};
 };
 
 export default connect(mapStateToProps, { fetchEntries })(EntryList);

@@ -15,14 +15,16 @@ export const signOut = () => {
 	};
 };
 
-export const createEntry = (formValues) => async (dispatch) => {
-	const response = await entries.post('/entries', formValues);
+export const createEntry = (formValues) => async (dispatch, getState) => {
+	const { userId } = getState().auth;
+	const response = await entries.post('/entries', { ...formValues, userId });
 
 	dispatch({ type: CREATE_ENTRY, payload: response.data });
+	history.push('/');
 };
 
 export const fetchEntries = () => async (dispatch) => {
-	const response = await entries.get('/entries?_sort=date&_order=asc');
+	const response = await entries.get('/entries');
 
 	dispatch({ type: FETCH_ENTRIES, payload: response.data });
 };
