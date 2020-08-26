@@ -1,6 +1,6 @@
-// import streams from '../apis/streams';
+import entries from '../apis/entries';
 import history from '../history';
-import { SIGN_IN, SIGN_OUT } from './types';
+import { SIGN_IN, SIGN_OUT, CREATE_ENTRY, FETCH_ENTRY, FETCH_ENTRIES, DELETE_ENTRY, EDIT_ENTRY } from './types';
 
 export const signIn = (userId) => {
 	return {
@@ -13,4 +13,34 @@ export const signOut = () => {
 	return {
 		type: SIGN_OUT
 	};
+};
+
+export const createEntry = (formValues) => async (dispatch) => {
+	const response = await entries.post('/entries', formValues);
+
+	dispatch({ type: CREATE_ENTRY, payload: response.data });
+};
+
+export const fetchEntries = () => async (dispatch) => {
+	const response = await entries.get('/entries?_sort=date&_order=asc');
+
+	dispatch({ type: FETCH_ENTRIES, payload: response.data });
+};
+
+export const fetchEntry = (id) => async (dispatch) => {
+	const response = await entries.get(`/entries/${id}`);
+
+	dispatch({ type: FETCH_ENTRY, payload: response.data });
+};
+
+export const editEntry = (id, formValues) => async (dispatch) => {
+	const response = await entries.put(`/entries/${id}`, formValues);
+
+	dispatch({ type: EDIT_ENTRY, payload: response.data });
+};
+
+export const deleteEntry = (id) => async (dispatch) => {
+	await entries.delete(`/entries/${id}`);
+
+	dispatch({ type: DELETE_ENTRY, payload: id });
 };
