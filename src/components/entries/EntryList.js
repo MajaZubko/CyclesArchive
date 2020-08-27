@@ -20,7 +20,9 @@ class EntryList extends React.Component {
 							<div className="list-description">{entry.temperature}</div>
 						</div>
 						<div className="list-buttons">
-							<button className="edit-button">Edit</button>
+							<Link to={`/edit/${entry.id}`} className="edit-button">
+								Edit
+							</Link>
 							<button className="delete-button">Delete</button>
 						</div>
 					</div>

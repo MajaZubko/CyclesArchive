@@ -20,7 +20,7 @@ const App = () => {
 						<Route path="/new" exact component={EntryCreate} />
 						<Route path="/edit/:id" exact component={EntryEdit} />
 						<Route path="/delete/:id" exact component={EntryDelete} />
-						<Route path="/:id" exact component={CycleShow} />
+						{/* <Route path="/:id" exact component={CycleShow} /> */}
 					</Switch>
 				</div>
 			</Router>
