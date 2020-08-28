@@ -17,9 +17,9 @@ const App = () => {
 					<Header />
 					<Switch>
 						<Route path="/" exact component={EntryList} />
-						<Route path="/new" exact component={EntryCreate} />
-						<Route path="/edit/:id" exact component={EntryEdit} />
-						<Route path="/delete/:id" exact component={EntryDelete} />
+						<Route path="/entries/new" exact component={EntryCreate} />
+						<Route path="/entries/edit/:id" exact component={EntryEdit} />
+						<Route path="/entries/delete/:id" exact component={EntryDelete} />
 						{/* <Route path="/:id" exact component={CycleShow} /> */}
 					</Switch>
 				</div>

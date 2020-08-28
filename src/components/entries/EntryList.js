@@ -20,7 +20,7 @@ class EntryList extends React.Component {
 							<div className="list-description">{entry.temperature}</div>
 						</div>
 						<div className="list-buttons">
-							<Link to={`/edit/${entry.id}`} className="edit-button">
+							<Link to={`/entries/edit/${entry.id}`} className="edit-button">
 								Edit
 							</Link>
 							<button className="delete-button">Delete</button>
@@ -34,7 +34,7 @@ class EntryList extends React.Component {
 	renderCreate() {
 		if (this.props.isSignedIn) {
 			return (
-				<Link to="/new" className="create-button">
+				<Link to="/entries/new" className="create-button">
 					Create entry
 				</Link>
 			);

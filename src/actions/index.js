@@ -36,9 +36,10 @@ export const fetchEntry = (id) => async (dispatch) => {
 };
 
 export const editEntry = (id, formValues) => async (dispatch) => {
-	const response = await entries.put(`/entries/${id}`, formValues);
+	const response = await entries.patch(`/entries/${id}`, formValues);
 
 	dispatch({ type: EDIT_ENTRY, payload: response.data });
+	history.push('/');
 };
 
 export const deleteEntry = (id) => async (dispatch) => {
