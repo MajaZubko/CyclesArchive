@@ -23,7 +23,9 @@ class EntryList extends React.Component {
 							<Link to={`/entries/edit/${entry.id}`} className="edit-button">
 								Edit
 							</Link>
-							<button className="delete-button">Delete</button>
+							<Link to={`/entries/delete/${entry.id}`} className="delete-button">
+								Delete
+							</Link>
 						</div>
 					</div>
 				);

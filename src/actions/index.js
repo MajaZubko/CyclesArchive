@@ -24,7 +24,7 @@ export const createEntry = (formValues) => async (dispatch, getState) => {
 };
 
 export const fetchEntries = () => async (dispatch) => {
-	const response = await entries.get('/entries');
+	const response = await entries.get('/entries?_sort=date');
 
 	dispatch({ type: FETCH_ENTRIES, payload: response.data });
 };
@@ -46,4 +46,5 @@ export const deleteEntry = (id) => async (dispatch) => {
 	await entries.delete(`/entries/${id}`);
 
 	dispatch({ type: DELETE_ENTRY, payload: id });
+	history.push('/');
 };
