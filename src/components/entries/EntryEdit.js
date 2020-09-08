@@ -15,6 +15,7 @@ class EntryEdit extends React.Component {
 	};
 
 	render() {
+		console.log(this.props.entry);
 		if (!this.props.entry) {
 			return <div>Loading...</div>;
 		}
