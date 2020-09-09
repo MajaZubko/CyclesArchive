@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { fetchEntries } from '../../actions';
 
-class EntryList extends React.Component {
-	componentDidMount() {
-		this.props.fetchEntries();
-	}
+const EntryList = () => {
+	const dispatch = useDispatch();
 
-	renderList() {
-		return this.props.entries.map((entry) => {
-			if (entry.userId === this.props.currentUserId) {
+	useEffect(
+		() => {
+			dispatch(fetchEntries());
+		},
+		[ dispatch ]
+	);
+
+	const entries = useSelector((state) => Object.values(state.entries));
+	console.log(entries);
+	const currentUserId = useSelector((state) => state.auth.userId);
+	const isSignedIn = useSelector((state) => state.auth.isSignedIn);
+
+	const renderList = () => {
+		return entries.map((entry) => {
+			if (entry.userId === currentUserId) {
 				return (
 					<div className="list-item" key={entry.id}>
 						<i className="fas fa-thermometer-half" />
@@ -31,35 +42,33 @@ class EntryList extends React.Component {
 				);
 			}
 		});
-	}
+	};
 
-	renderCreate() {
-		if (this.props.isSignedIn) {
+	const renderCreate = () => {
+		if (isSignedIn) {
 			return (
 				<Link to="/entries/new" className="create-button">
 					Create entry
 				</Link>
 			);
 		}
-	}
-
-	render() {
-		return (
-			<div>
-				<h2>Entries</h2>
-				<div className="entry-list">{this.renderList()}</div>
-				{this.renderCreate()}
-			</div>
-		);
-	}
-}
-
-const mapStateToProps = (state) => {
-	return {
-		entries: Object.values(state.entries),
-		currentUserId: state.auth.userId,
-		isSignedIn: state.auth.isSignedIn
 	};
+
+	return (
+		<div>
+			<h2>Entries</h2>
+			<div className="entry-list">{renderList()}</div>
+			{renderCreate()}
+		</div>
+	);
 };
 
-export default connect(mapStateToProps, { fetchEntries })(EntryList);
+// const mapStateToProps = (state) => {
+// 	return {
+// 		entries: Object.values(state.entries),
+// 		currentUserId: state.auth.userId,
+// 		isSignedIn: state.auth.isSignedIn
+// 	};
+// };
+
+export default EntryList;
